@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<!-- 
+// Options.html: The web UI of the options page 
+// Author: Abdullah Ali
+// Contact: @xyleques, xyleques@me.com
+-->
+<html>
+<head>
+  <title>My Stats</title>
+
+  <style>
+  body { 
+    /*padding: 10px;*/
+    /*padding-top: 0; */
+    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    background: #2d313f;
+    width: 500px;
+    height: 400px;
+    padding: 0;
+    margin: 0;
+  }
+
+  label{
+    margin-bottom: 30px;
+  }
+  h2{
+    color: #fff;
+    margin: 0 auto 10px;
+
+  }
+  h4{
+    margin: 0 auto 5px;
+  }
+  a{
+    text-decoration: none;
+  }
+  a img {
+
+    border:0;
+    border-style: none;
+  }
+  *:focus {outline: 0;}
+
+  #wrapper{
+    width: 500px;
+    height: 400px;
+    position: absolute;
+  }
+  .top {
+    position: relative;
+    left: 0;
+    top: 0;
+    width: 100%;
+    background: #222633;
+    height: 50px;
+    padding-left: 45px;
+  }
+  .title{
+    line-height: 50px;
+    text-align: left;
+    font-size: 15pt;
+    /*letter-spacing: 8pt;*/
+    color: #DCE57D;
+  }
+  /*h4 {
+    color: #656565;
+    position: relative;
+    top: 5px;
+    line-height: 30px;
+    }*/
+    .title > span{
+      font-weight: bolder;
+      color: #989898;
+    }
+    .subtitle {
+      height: 10px;
+      line-height: 10px;
+      padding-left: 45px;
+    }
+    #logo{
+      width: 50px;
+      position: absolute;
+      /*display: block;*/
+      /*z-index: -1;*/
+      top: 10px;
+      right: 40px;
+
+    }
+    #download, #clear {
+      position: relative;
+      margin: 0 auto 0;
+      display: block;
+      width: 200px;
+      height: 35px;
+      line-height: 35px;
+      text-align: center;
+      background: #DCE57D;
+      color: #000;
+      cursor: pointer;
+      font-weight: normal;
+      letter-spacing: 1pt;
+      box-shadow: 0 2px 10px 0 rgba(0, 0, 0, 0.16), 0 2px 5px 0 rgba(0, 0, 0, 0.26);
+    }
+    #download:hover, #clear:hover {
+      background: rgba(16,21,43, 0.8);
+      color: #e5f928;
+      font-weight: normal;
+      letter-spacing: 1pt;
+      box-shadow:none;
+    }
+    #clear{
+      margin-top: 3px;
+    }
+    #back{
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 45px;
+      height: 50px;
+      /*background: rgba(16,21,43, 0.5);
+      box-shadow: 0 2px 10px 0 rgba(0, 0, 0, 0.16), 0 2px 5px 0 rgba(0, 0, 0, 0.26);*/
+    }
+    #back:hover{
+      background: #DCE57D;
+    }
+    #arrow{
+      width: 13px;
+      height: 13px;
+      -webkit-transform: rotate(45deg);
+      transform: rotate(45deg);
+      border-bottom: 3px solid #DCE57D;
+      border-left: 3px solid #DCE57D;
+      position: absolute;
+      top: 18px;
+      left: 20px;
+    }
+    #back:hover #arrow{
+      border-bottom: 2px solid rgba(16,21,43, 0.8);
+      border-left: 2px solid rgba(16,21,43, 0.8);
+    }
+
+    .card{
+      display: block;
+      position: relative;
+      width: 500px;
+      height: 25px;
+      /*padding-left: 20px;*/
+      background: #3D4252;
+      color: #fff;
+      padding: 10px;
+
+    }
+    #options > h3{
+      margin: 0 auto 5px;
+    } 
+    #logs{
+      width: 200px;
+      display: block;
+      position: relative;
+      margin: 0 auto 0;
+      /*bottom: 0;*/
+      /*right: 0;*/
+      padding: 0;
+    } 
+    #barRed, #barBlue, #barGreen{
+      margin-left: 20px;
+    }
+    span{
+      font-weight: bolder;
+      color: #DCE57D;
+    }
+    h3{
+      /*border-top: 3px solid white;*/
+      color: #FFF;
+    }
+    .desc{ 
+      color: #989898; 
+      font-weight: normal;
+      font-size: 8pt;
+    }
+    #save{
+      position: relative;
+      float: left;
+      margin: 10px 10px;
+      /*display: block;*/
+      width: 65px;
+      height: 30px;
+      line-height: 35px;
+      text-align: center;
+      background: #DCE57D;
+      color: #000;
+      cursor: pointer;
+      font-weight: normal;
+      letter-spacing: 1pt;
+      box-shadow: 0 2px 10px 0 rgba(0, 0, 0, 0.16), 0 2px 5px 0 rgba(0, 0, 0, 0.26);
+    }
+    #reset{
+      /*position: relative;*/
+      float: left;
+      margin: 10px 6px;
+      display: inline-block;
+      width: 65px;
+      height: 30px;
+      line-height: 35px;
+      text-align: center;
+      background: #DCE57D;
+      color: #000;
+      cursor: pointer;
+      font-weight: normal;
+      letter-spacing: 1pt;
+      box-shadow: 0 2px 10px 0 rgba(0, 0, 0, 0.16), 0 2px 5px 0 rgba(0, 0, 0, 0.26);
+    }
+    #save:hover{
+      background: rgba(16,21,43, 0.8);
+      color: #e5f928;
+      font-weight: normal;
+      letter-spacing: 1pt;
+      box-shadow:none;
+    }
+    #reset:hover {
+      background: rgba(16,21,43, 0.8);
+      color: #e5f928;
+      font-weight: normal;
+      letter-spacing: 1pt;
+      box-shadow:none;
+    }
+    #message{
+      position: absolute;
+      /*height: 20px;*/
+      margin-left: 170px;
+      line-height: 50px;
+      text-align: center;
+      color: #fff;
+      font-weight: normal;
+      letter-spacing: 0.7pt;
+    }
+    .btmBar {   
+      position: fixed;    
+      bottom: 0px;    
+      width: 100%;    
+      height: 50px;   
+      background: #222633;
+      /*z-index: : -1;    */
+    } 
+    .metric {
+      /*display: inline-block;*/
+      float: left;
+      line-height: 25px;
+    }
+    .viz {
+      /*display: inline-block;*/
+      padding-left: 290px;
+      line-height: 25px;
+    }
+    .counter {
+      padding: 10px;
+      float: left;
+    }
+    
+    #stat{
+      width: 95%;
+      display: block;
+      position: relative;
+      margin: 10px auto 0;
+      color: #fff;
+
+    }
+
+    </style>
+
+  </head>
+
+  <body>
+
+    <div id="wrapper">
+      <div class="top">
+        <a href="popup.html">
+          <div id="back">
+            <div id="arrow"></div>
+          </div>  
+        </a>
+        
+        <h2 class="title" id="name">My Stats</h2>
+        <img src="img/newConceptYellow.png" id="logo">
+      </div>
+
+      <h3 class="subtitle">You have made [ <span id="clicks"></span> ] clicks!</h3>
+      <h3 class="subtitle">You have made [ <span id="slips"></span> ] slips!</h3>
+
+    </div>
+
+  </div>
+
+  <script src="stat.js"></script>
+
+</body>
+</html>

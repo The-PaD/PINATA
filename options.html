@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<!-- 
+// Options.html: The web UI of the options page 
+// Author: Abdullah Ali
+// Contact: @xyleques, xyleques@me.com
+-->
+<html>
+<head>
+	<title>Notifications Manager</title>
+
+	<style>
+	body { 
+		/*padding: 10px;*/
+		/*padding-top: 0; */
+		font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+		background: #2d313f;
+		width: 500px;
+		height: 400px;
+		padding: 0;
+		margin: 0;
+	}
+
+	label{
+		margin-bottom: 30px;
+	}
+	h2{
+		color: #fff;
+		margin: 0 auto 10px;
+
+	}
+	h4{
+		margin: 0 auto 5px;
+	}
+	a{
+		text-decoration: none;
+	}
+	a img {
+
+		border:0;
+		border-style: none;
+	}
+	*:focus {outline: 0;}
+
+	#wrapper{
+		width: 500px;
+		height: 400px;
+		position: absolute;
+	}
+	.top {
+		position: relative;
+		left: 0;
+		top: 0;
+		width: 100%;
+		background: #222633;
+		height: 50px;
+		padding-left: 45px;
+	}
+	.title{
+		line-height: 50px;
+		text-align: left;
+		font-size: 15pt;
+		/*letter-spacing: 8pt;*/
+		color: #DCE57D;
+	}
+	/*h4 {
+		color: #656565;
+		position: relative;
+		top: 5px;
+		line-height: 30px;
+		}*/
+		.title > span{
+			font-weight: bolder;
+			color: #989898;
+		}
+		.subtitle {
+			height: 40px;
+			line-height: 40px;
+			padding-left: 45px;
+			font-size: 15px;
+			color: #fff;
+		}
+		.subtitle-metric {
+			width: 50%;
+			/*display: inline-block;*/
+			float: left;
+		}
+		.subtitle-viz {
+			width: 50%;
+			padding-left: 255px;
+			/*display: inline-block;*/
+		}
+		#logo{
+			width: 50px;
+			position: absolute;
+			/*display: block;*/
+			/*z-index: -1;*/
+			top: 10px;
+			right: 40px;
+
+		}
+		#download, #clear {
+			position: relative;
+			margin: 0 auto 0;
+			display: block;
+			width: 200px;
+			height: 35px;
+			line-height: 35px;
+			text-align: center;
+			background: #DCE57D;
+			color: #000;
+			cursor: pointer;
+			font-weight: normal;
+			letter-spacing: 1pt;
+			box-shadow: 0 2px 10px 0 rgba(0, 0, 0, 0.16), 0 2px 5px 0 rgba(0, 0, 0, 0.26);
+		}
+		#download:hover, #clear:hover {
+			background: rgba(16,21,43, 0.8);
+			color: #e5f928;
+			font-weight: normal;
+			letter-spacing: 1pt;
+			box-shadow:none;
+		}
+		#clear{
+			margin-top: 3px;
+		}
+		#back{
+			position: absolute;
+			left: 0;
+			top: 0;
+			width: 45px;
+			height: 50px;
+			/*background: rgba(16,21,43, 0.5);
+			box-shadow: 0 2px 10px 0 rgba(0, 0, 0, 0.16), 0 2px 5px 0 rgba(0, 0, 0, 0.26);*/
+		}
+		#back:hover{
+			background: #DCE57D;
+		}
+		#arrow{
+			width: 13px;
+			height: 13px;
+			-webkit-transform: rotate(45deg);
+			transform: rotate(45deg);
+			border-bottom: 3px solid #DCE57D;
+			border-left: 3px solid #DCE57D;
+			position: absolute;
+			top: 18px;
+			left: 20px;
+		}
+		#back:hover #arrow{
+			border-bottom: 2px solid rgba(16,21,43, 0.8);
+			border-left: 2px solid rgba(16,21,43, 0.8);
+		}
+
+		.card{
+			display: block;
+			position: relative;
+			width: 500px;
+			/*height: 55px;*/
+			max-height: 200px;
+			/*padding-left: 20px;*/
+			background: #3D4252;
+			color: #fff;
+			padding: 10px;
+			box-shadow: 0 2px 10px 0 rgba(0, 0, 0, 0.16), 0 2px 5px 0 rgba(0, 0, 0, 0.26);
+
+		}
+		.content-container {
+			max-height: 300px;
+			overflow-x: hidden;
+			overflow-y: scroll;
+			padding-bottom: 100px;
+		}
+		.card-container {
+			margin-bottom: 10px;
+		}
+		#options > h3{
+			margin: 0 auto 5px;
+		} 
+		#logs{
+			width: 200px;
+			display: block;
+			position: relative;
+			margin: 0 auto 0;
+			/*bottom: 0;*/
+			/*right: 0;*/
+			padding: 0;
+		} 
+		#barRed, #barBlue, #barGreen{
+			margin-left: 20px;
+		}
+		span{
+			font-weight: bolder;
+			color: #e5f928;
+		}
+		h3{
+			/*border-top: 3px solid white;*/
+			color: #FFF;
+		}
+		.desc{ 
+			color: #989898; 
+			font-weight: normal;
+			font-size: 8pt;
+		}
+		.options-btn {
+			position: relative;
+			font-size: 14px;
+			cursor: pointer;
+			display: inline-block;
+			color: #DCE57D;
+			letter-spacing: 1pt;
+			text-decoration: underline;
+		}
+		#save{
+			position: relative;
+			float: left;
+			margin: 10px 10px;
+			/*display: block;*/
+			width: 65px;
+			height: 30px;
+			line-height: 35px;
+			text-align: center;
+			background: #DCE57D;
+			color: #000;
+			cursor: pointer;
+			font-weight: normal;
+			letter-spacing: 1pt;
+			box-shadow: 0 2px 10px 0 rgba(0, 0, 0, 0.16), 0 2px 5px 0 rgba(0, 0, 0, 0.26);
+		}
+		#reset{
+			/*position: relative;*/
+			float: left;
+			margin: 10px 6px;
+			display: inline-block;
+			width: 65px;
+			height: 30px;
+			line-height: 35px;
+			text-align: center;
+			background: #DCE57D;
+			color: #000;
+			cursor: pointer;
+			font-weight: normal;
+			letter-spacing: 1pt;
+			box-shadow: 0 2px 10px 0 rgba(0, 0, 0, 0.16), 0 2px 5px 0 rgba(0, 0, 0, 0.26);
+		}
+		#save:hover{
+			background: rgba(16,21,43, 0.8);
+			color: #e5f928;
+			font-weight: normal;
+			letter-spacing: 1pt;
+			box-shadow:none;
+		}
+		#reset:hover {
+			background: rgba(16,21,43, 0.8);
+			color: #e5f928;
+			font-weight: normal;
+			letter-spacing: 1pt;
+			box-shadow:none;
+		}
+		#message{
+			position: absolute;
+			/*height: 20px;*/
+			margin-left: 170px;
+			line-height: 50px;
+			text-align: center;
+			color: #fff;
+			font-weight: normal;
+			letter-spacing: 0.7pt;
+		}
+		.btmBar {   
+			position: fixed;    
+			bottom: 0px;    
+			width: 100%;    
+			height: 50px;   
+			background: #222633;
+			/*z-index: : -1;    */
+		} 
+		.metric {
+			/*display: inline-block;*/
+			float: left;
+			line-height: 25px;
+		}
+		.viz {
+			/*display: inline-block;*/
+			padding-left: 290px;
+			line-height: 25px;
+		}
+		.flag {
+			padding: 10px;
+			float: left;
+		}
+		#flip, #ctFlip {
+
+		}
+		.optionsMenu {
+			text-align: left;
+		}
+		.col {
+			display: block;
+			width: 50%;
+			float: left;
+		}
+		.row {
+			display: block;
+		}
+		#optionsMenu {
+			margin: auto;
+			border-top: 1px solid #B4B4B4;
+			color: #fff;
+			width: 100%;
+			/*height: 100px;*/
+			background: #3D4252;
+			display: none;
+			padding: 15px;
+			line-height: 25px;
+			/*box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.16), 0 2px 5px 0 rgba(0, 0, 0, 0.26);*/
+		}
+		#ctOptionsMenu {
+			margin: auto;
+			border-top: 1px solid #B4B4B4;
+			color: #fff;
+			width: 100%;
+			/*height: 100px;*/
+			background: #3D4252;
+			display: none;
+			padding: 15px;
+			line-height: 25px;
+			/*box-shadow: 0 2px 10px 0 rgba(0, 0, 0, 0.16), 0 2px 5px 0 rgba(0, 0, 0, 0.26);*/
+		}
+		</style>
+
+		<link rel="stylesheet" type="text/css" href="css/spectrum.css">
+	</head>
+
+	<body>
+		<div id="wrapper">
+			<div class="top">
+				<a href="popup.html">
+					<div id="back">
+						<div id="arrow"></div>
+					</div>  
+				</a>
+				
+				<h2 class="title" id="name">Notifications Manager</h2>
+				<img src="img/newConceptYellow.png" id="logo">
+			</div>
+
+			<div class="subtitle">
+				<div class="subtitle-metric">Notify me if the:</div>
+				<div class="subtitle-viz">Notify me using:</div>
+			</div>
+
+			<div class="content-container">
+				<!-- Start: Slip/Click Ratio -->
+				<div class="card-container">
+					<div class="card">
+						<div class="flag">
+							<input type="checkbox" id="scrFlag">
+						</div>
+
+						<div class="metric">
+							<b>Slip/Click</b> ratio is
+							<br>
+
+							<select id="scrRel">
+								<option value="gt" selected="selected">greater than</option>
+								<option value="et">equal to</option>
+								<option value="lt">less than</option>
+							</select>
+
+							<input id="scrValue" type="number" min="0" max="100" step="1" value="0"> %
+						</div>
+
+						<div class="viz">
+							<select id="scrViz">
+								<option value="scrBar" selected="selected">Bar</option>
+								<option value="scrBarPlus">Bar+</option>
+								<option value="scrDialog">Dialog Box</option>
+							</select>
+							<br>
+
+							<!-- Options menu -->
+							<div id="flip" class="options-btn">Options</div>
+						</div>
+					</div>
+
+					<div class="optionsMenu" id="optionsMenu">
+						<div class="col">
+							Position:
+							<input type="radio" name="pos" id="posTop" checked="true"> Top 
+							<input type="radio" name="pos" id="posBtm">Bottom
+						</div>
+						<div class="col">
+							Color:
+							<input type='text' name='togglePaletteOnly' id='scrBarColor'/>
+						</div>
+						<div class="row">
+							Thickness:
+							<input id="scrThick" type="number" min="5" max="50" step="1" value="5"> pixels
+						</div>
+					</div>
+
+					<!-- <span class="desc">
+						<br> non-interactive [Low visibility | Low interruption]  
+					</span class="desc">
+
+					<br>
+					<input type="checkbox" id="barPlus"> <span> Bar+</span> 
+					<span class="desc">
+						<br> interactive [Med visibility | Low interruption]  
+					</span class="desc">
+
+					<br>
+					<input type="checkbox" id="dialogBox"><span>  Dialog box</span> 
+					<span class="desc">
+						<br> interactive  [High visibility | High interruption]
+					</span class="desc"> -->
+				</div>
+				<!-- End: Slip/Click Ratio -->
+
+
+				<!-- Start: Click Timing -->
+				<div class="card-container">
+					<div class="card">
+						<div class="flag">
+							<input type="checkbox" id="ctFlag">
+						</div>
+
+						<div class="metric">
+							<b>Click Timing</b> is
+							<br>
+
+							<select id="ctRel">
+								<option value="gt" selected="selected">greater than</option>
+								<option value="et">equal to</option>
+								<option value="lt">less than</option>
+							</select>
+
+							<input id="ctValue" type="number" min="0" max="50" step="1" value="0"> sec
+						</div>
+
+						<div class="viz">
+							<select id="ctViz">
+								<option value="ctBar" selected="selected">Bar</option>
+								<option value="ctBarPlus">Bar+</option>
+								<option value="ctDialog">Dialog Box</option>
+							</select>
+							<br>
+
+							<!-- Options menu -->
+							<div id="ctFlip" class="options-btn">Options</div>
+						</div>
+
+					</div>
+					<div class="optionsMenu" id="ctOptionsMenu">
+						<div class="col">
+							Position:
+							<input type="radio" name="ctPos" id="ctPosTop" checked="true"> Top 
+							<input type="radio" name="ctPos" id="ctPosBtm">Bottom
+						</div>
+						<div class="col">
+							Color:
+							<input type='text' name='togglePaletteOnly' id='ctBarColor'/>
+						</div>
+						<div class="row">
+							Thickness:
+							<input id="ctThick" type="number" min="5" max="50" step="1" value="5"> pixels
+						</div>
+					</div>
+				</div>
+				<!-- End: Click Timing -->
+
+			</div>
+
+			<div class="btmBar">
+				<div id="save">Save</div>
+				<div id="reset">Reset</div>
+				<div id="message"></div>
+			</div>
+
+
+	<!-- <div id="logs">
+		<div id="download">
+			Download Log
+		</div>
+		<div id="clear">
+			Reset
+		</div>
+	</div> -->
+
+</div>
+
+
+
+
+
+</div>
+<script src="jquery.js"></script>
+<script src="options.js"></script>
+<script src="spectrum.js"></script>
+</body>
+</html>

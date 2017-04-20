@@ -1,0 +1,43 @@
+{
+    "name": "Pinata: Pointing Interaction Notifications and AdapTAtions",
+    "description": "Testing Local storage, and reworking the GUI",
+    "version": "2.1",
+    "options_page": "options.html",
+
+    "icons":{
+            "128": "img/newConceptCircleYellow.png"
+        },
+
+    "background":{
+                "scripts": ["jquery.js", "background.js"]
+                    },
+    
+    "permissions": [
+                    "tabs","<all_urls>", "http://xyleques.com/server.php", "storage","downloads", "notifications",  "contextMenus", "activeTab" , "webRequest",
+                    "http://*/", "https://*/"
+                    ],
+    
+    "browser_action": {
+        "default_icon": "img/newConceptCircleYellow.png",
+        "default_popup": "popup.html",
+        "default_title": "Pinata"
+    },
+     "web_accessible_resources": [
+       "img/newConceptCircleYellow.png"
+     ], 
+     
+    "content_scripts": [
+        {
+        "matches": [
+            "http://*/*",
+            "https://*/*"
+            ],
+        "css": ["css/spectrum.css"],
+        "js": ["jquery.js", "spectrum.js", "Blob.js", "listener.js"],
+        "run_at": "document_end"         // pay attention to this line
+        }
+    ],
+
+    "manifest_version":2
+}
+
