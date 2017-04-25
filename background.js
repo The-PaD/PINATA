@@ -21,106 +21,90 @@ chrome.extension.onMessage.addListener( function(request,sender,sendResponse) {
 	}});
 
 function send() {
-	
-        chrome.storage.sync.get(null, function(items) { // null implies all items
-	    	///////////////////// Restore meta data in storage \\\\\\\\\\\\\\\\\\\\\\\
-	    	if (items.t_num_clicks == null || items.t_num_clicks == "undefined") {
-	    		chrome.storage.sync.set({		
-	    			't_num_clicks': items.num_clicks
-	    		}, function(){});
-	    	} else {
-	    		chrome.storage.sync.set({		
-	    			't_num_clicks': items.t_num_clicks + items.num_clicks
-	    		}, function(){});
-	    	}
+	chrome.storage.sync.get(null, function(items) { // null implies all items
+		//Restore meta data in storage
 
-	    	if (items.t_num_slips == null || items.t_num_slips == "undefined") {
-	    		chrome.storage.sync.set({		
-	    			't_num_slips': slipCounter(items.slips)
-	    		}, function(){});
-	    	} else {
-	    		chrome.storage.sync.set({		
-	    			't_num_slips': items.t_num_slips + slipCounter(items.slips)
-	    		}, function(){});
-	    	}
-	    	
-	    	//Slip Click Ratio Value
-	    	if (items.t_num_slips == null || items.t_num_slips == "undefined") {
-	    		chrome.storage.sync.set({		
-	    			'scrValue': items.scrValue
-	    		}, function(){});
-	    	} else {
-	    		chrome.storage.sync.set({		
-	    			'scrValue': items.scrValue
-	    		}, function(){});
-	    	} 	   
+		//Slip Click Ratio Value
+		if (items.t_num_clicks == null || items.t_num_clicks == "undefined") {
+			chrome.storage.sync.set({		
+				't_num_clicks': items.num_clicks
+			}, function(){});
+		} else {
+			chrome.storage.sync.set({		
+				't_num_clicks': items.t_num_clicks + items.num_clicks
+			}, function(){});
+		}
 
-	    	if (items.t_num_slips == null || items.t_num_slips == "undefined") {
-	    		chrome.storage.sync.set({		
-	    			'slip_prefAdapt': items.slip_prefAdapt
-	    		}, function(){});
-	    	} else {
-	    		chrome.storage.sync.set({		
-	    			'slip_prefAdapt': items.slip_prefAdapt
-	    		}, function(){});
-	    	}   
+		if (items.t_num_slips == null || items.t_num_slips == "undefined") {
+			chrome.storage.sync.set({		
+				't_num_slips': slipCounter(items.slips)
+			}, function(){});
+		} else {
+			chrome.storage.sync.set({		
+				't_num_slips': items.t_num_slips + slipCounter(items.slips)
+			}, function(){});
+		}
+		
+		//Click Timing Value
+		chrome.storage.sync.set({		
+			'clickTiming': items.click_durations
+		}, function(){});
 
-	    	//Click Timing Value
-    		chrome.storage.sync.set({		
-    			'click_durations': items.click_durations
-    		}, function(){});
-
-    		chrome.storage.sync.set({		
-    			'ctValue': items.ctValue
-    		}, function(){});
-
-			//
-    		chrome.storage.sync.set({		
-    			'click_durations': items.click_durations
-    		}, function(){});
-
-    		chrome.storage.sync.set({		
-    			'ctValue': items.ctValue
-    		}, function(){});
-
-	    	
-
-	        ///////////////////// Restore meta data in storage \\\\\\\\\\\\\\\\\\\\\\\
+		//Pause Timing
+		chrome.storage.sync.set({		
+			'pauseTiming': items.pause	//save the last pause time
+		}, function(){});
 
 
-	        ///////////////////// Send data to be stored in a log on an external server \\\\\\\\\\\\\\\\\\\\\\\
+		//Adaptations
+		if (items.t_num_slips == null || items.t_num_slips == "undefined") {
+			chrome.storage.sync.set({		
+				'slip_prefAdapt': items.slip_prefAdapt
+			}, function(){});
+		} else {
+			chrome.storage.sync.set({		
+				'slip_prefAdapt': items.slip_prefAdapt
+			}, function(){});
+		}   
 
-	        // The following code can be uncommented to send data to an external server 
-	        // to be permanantly saved as logs for studies 
 
-	       //  	$.ajax({
-	       				// This 'url' is Abdullah's test server
-		      //        // url: 'http://xyleques.com/server.php', 
-		      //       type: 'post',
-		      //       dataType: 'json',
-		      //      success: function(data, textStatus, jqXHR)
-				    // {
-				    //     //data - response from server
-				    //     // console.log("data " + data);
-				    //     // console.log("textStatus " + textStatus);
-				    //     // console.log("textStatus " + textStatus);
-				    //     // console.log("jqXHR success:" );
-				    //     // console.log(jqXHR);
-				    // },
-				    // error: function (jqXHR, textStatus, errorThrown)
-				    // {
-				    //     // console.log("jqXHR error:" );
-				    //     // console.log(jqXHR);
-				    //     // console.log("textStatus " + textStatus);
-				    //     // console.log("errorThrown " + errorThrown);
-				    
-				    // },
 
-		      //       data: items
-		      //   });
-	        ///////////////////// Send data to be stored in a log on an external server \\\\\\\\\\\\\\\\\\\\\\\
-	        
-  		});//End of chrome.storage.synd
+	    ///////////////////// Restore meta data in storage \\\\\\\\\\\\\\\\\\\\\\\
+
+
+	    ///////////////////// Send data to be stored in a log on an external server \\\\\\\\\\\\\\\\\\\\\\\
+
+	    // The following code can be uncommented to send data to an external server 
+	    // to be permanantly saved as logs for studies 
+
+	   //  	$.ajax({
+	   				// This 'url' is Abdullah's test server
+	      //        // url: 'http://xyleques.com/server.php', 
+	      //       type: 'post',
+	      //       dataType: 'json',
+	      //      success: function(data, textStatus, jqXHR)
+			    // {
+			    //     //data - response from server
+			    //     // console.log("data " + data);
+			    //     // console.log("textStatus " + textStatus);
+			    //     // console.log("textStatus " + textStatus);
+			    //     // console.log("jqXHR success:" );
+			    //     // console.log(jqXHR);
+			    // },
+			    // error: function (jqXHR, textStatus, errorThrown)
+			    // {
+			    //     // console.log("jqXHR error:" );
+			    //     // console.log(jqXHR);
+			    //     // console.log("textStatus " + textStatus);
+			    //     // console.log("errorThrown " + errorThrown);
+			    
+			    // },
+
+	      //       data: items
+	      //   });
+	    ///////////////////// Send data to be stored in a log on an external server \\\\\\\\\\\\\\\\\\\\\\\
+	    
+		});//End of chrome.storage.synd
 }
 
 function clear(){
@@ -152,7 +136,7 @@ function clear(){
 	chrome.storage.sync.set({			
 		// 'Type': types, 
 		// 'timeStamp': tStamp, 
-		// 'pause': pause, 
+		'pause': pause, 
 		// 'IDs': se_tIDs, 
 		'url': url, 
 		// 'x': se_X, 

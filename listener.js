@@ -71,6 +71,10 @@ console.log("Test PINATA is starting...");
 
 	////////////// Mouse behavior handeling functions \\\\\\\\\\\\\\\
 
+		// FUNCTION: Save the X, Y coordinates where the mouse was clicked in 2 variables
+		document.onclick = function(e) {
+		};
+		
 		// FUNCTION: Save the X, Y coordinates where the mouse was moved in 2 variables
 			// Get information about whatever element the cursor is hovering on 
 			document.onmousemove = function(e) {	
@@ -79,7 +83,7 @@ console.log("Test PINATA is starting...");
 				var move_y = e.pageY;
 				se_Y.push(move_y);
 
-			    types.push("hovering");
+				types.push("hovering");
 			    // Getting information about the target the cursor is hovering above
 			    var hTarget = e.target;
 			    se_targets.push(hTarget);
@@ -132,11 +136,19 @@ console.log("Test PINATA is starting...");
 				var rP = getRelativeP(p, hArea);
 				se_trP.push(rP);
 
+				//pause time
 				var d = new Date(); 
-				var tStmp = d.getTime();
-				tStamp.push(tStmp);
-				pause.push(tStmp - tStamp[tStamp.length -2]);
-				// console.log(tStamp[tStamp.length -1] - tStamp[tStamp.length -2]);
+				var time = d.getTime();
+				tStamp.push(time);
+
+				if(tStamp.length <= 1) {
+					pause.push(0);
+				} else {
+					pause.push(time - tStamp[tStamp.length -2]);
+				}
+				console.log("mousemove pause:" + pause);
+
+				//current url				
 				var cURL = window.location.href;
 				url.push(cURL);
 
@@ -147,11 +159,16 @@ console.log("Test PINATA is starting...");
 				
 				// click_durations.push("");
 				// slips.push("");
+
+				//store pause time
+				// //************** Set Store **************//
+				// chrome.storage.sync.set({			
+				// 	'pause': pause
+				// }, function(){});
+
+				// sendBgMessage();
 			};
 
-		// FUNCTION: Save the X, Y coordinates where the mouse was clicked in 2 variables
-		document.onclick = function(e) {
-		};
 
 		// FUNCTION: Onmousedown:
 		/*	Save the start time of a click
@@ -226,11 +243,6 @@ console.log("Test PINATA is starting...");
 			var rP = getRelativeP(p, hArea);
 			se_trP.push(rP);
 
-			var d = new Date(); 
-			var tStmp = d.getTime();
-			tStamp.push(tStmp);
-			pause.push(tStmp - tStamp[tStamp.length -2]);
-			// console.log(tStamp[tStamp.length -1] - tStamp[tStamp.length -2]);
 			var cURL = window.location.href;
 			url.push(cURL);
 
@@ -325,11 +337,6 @@ console.log("Test PINATA is starting...");
 			var rP = getRelativeP(p, hArea);
 			se_trP.push(rP);
 
-			var d = new Date(); 
-			var tStmp = d.getTime();
-			tStamp.push(tStmp);
-			pause.push(tStmp - tStamp[tStamp.length -2]);
-			// console.log(tStamp[tStamp.length -1] - tStamp[tStamp.length -2]);
 			var cURL = window.location.href;
 			url.push(cURL);
 
@@ -340,70 +347,73 @@ console.log("Test PINATA is starting...");
 
 			num_clicks++;
 
-
-			//************** Get Store **************//
-			chrome.storage.sync.set({			
-				// 'Type': types, 
-				// 'timeStamp': tStamp, 
-				// 'pause': pause, 
-				// 'tID': se_tIDs, 
-				'url': url, 
-				// 'x': se_X, 
-				// 'y': se_Y,
-				// 'targets': se_targets, 
-				// 'heights': se_tH, 
-				// 'widths': se_tW ,
-				// 'tags': se_tTags,
-				// 'left': se_tL,
-				// 'top': se_tT,
-				// 'area': se_tA,
-				// 'Center_X': se_tCx,
-				// 'Center_Y': se_tCy,
-				'click_durations': click_durations,
-				'slips': slips,
-				'num_clicks': num_clicks
-				// 'win_height': win_h,
-				// 'win_width': win_w
-			}, function(){});
-
-			url = [];
-			types = [];
-			tStamp = [];
-			se_tIDs = [];
-			se_X = [];
-			se_Y = [];
-			se_targets = [];
-			se_tH = [];
-			se_tW = [];
-			se_tTags = [];
-			se_tL = [];
-			se_tT = [];
-			se_tA = [];
-			se_tCx = [];
-			se_tCy = [];
-			se_tP = [];
-			se_trP = [];
-			pause = [];
-			click_durations = [];
-			slips = [];
-			win_h = [];
-			win_w = [];
-			num_clicks = 0;
-
-
-			// Send message to background page to send info to server 
-			chrome.extension.sendMessage({send: "send"}, 
-				function(response) { 
-					console.log(response);
-				});
-
+			storeGlobalData();
+			resetGlobalData();
+			sendBgMessage();
 			notification();
 		}; //End of onmouseup
 
-		//common function to populate the variables
-		function populateVars() {
 
-		}
+function storeGlobalData() {
+	//************** Set Store **************//
+	chrome.storage.sync.set({			
+		// 'Type': types, 
+		// 'timeStamp': tStamp, 
+		// 'pause': pause, 
+		// 'tID': se_tIDs, 
+		'url': url, 
+		// 'x': se_X, 
+		// 'y': se_Y,
+		// 'targets': se_targets, 
+		// 'heights': se_tH, 
+		// 'widths': se_tW ,
+		// 'tags': se_tTags,
+		// 'left': se_tL,
+		// 'top': se_tT,
+		// 'area': se_tA,
+		// 'Center_X': se_tCx,
+		// 'Center_Y': se_tCy,
+		'click_durations': click_durations,
+		'slips': slips,
+		'num_clicks': num_clicks
+		// 'win_height': win_h,
+		// 'win_width': win_w
+	}, function(){});
+}
+
+function resetGlobalData() {
+	url = [];
+	types = [];
+	tStamp = [];
+	se_tIDs = [];
+	se_X = [];
+	se_Y = [];
+	se_targets = [];
+	se_tH = [];
+	se_tW = [];
+	se_tTags = [];
+	se_tL = [];
+	se_tT = [];
+	se_tA = [];
+	se_tCx = [];
+	se_tCy = [];
+	se_tP = [];
+	se_trP = [];
+	pause = [];
+	click_durations = [];
+	slips = [];
+	win_h = [];
+	win_w = [];
+	num_clicks = 0;
+}
+
+function sendBgMessage(){
+	// Send message to background page to send info to server 
+	chrome.extension.sendMessage({send: "send"}, 
+		function(response) { 
+			console.log(response);
+		});
+}
 
 	////////////// Mouse behavior handeling functions \\\\\\\\\\\\\\\
 
@@ -505,7 +515,10 @@ console.log("Test PINATA is starting...");
 		// bar position
 		var posTop;
 		var posBtm;
-
+		var barPlusDismissFlag = false;	//false: not clicked, true: clicked
+		var barPlusAdaptFlag = false;	//false: not clicked, true: clicked
+		var dialogBoxDismissFlag = false;	//false: not clicked, true: clicked
+		var dialogBoxAdaptFlag = false;	//false: not clicked, true: clicked
 		// 	Bar+ (on/off)
 		// var barPlus;
 		
@@ -513,7 +526,7 @@ console.log("Test PINATA is starting...");
 		// var dialogBox;
 		
 		// 	Zoom adaptation (on/off)
-		var zoomAdapt;
+		// var zoomAdapt;
 	////////////// Options \\\\\\\\\\\\\\\
 
 	///////////// Talking to options.js for notification preferences \\\\\\\\\\\\\\\
@@ -525,7 +538,7 @@ console.log("Test PINATA is starting...");
 			// bar: false,
 			// barPlus: false,
 			// dialogBox: false,
-			zoomAdapt: false
+			// zoomAdapt: false
 			// barRed: true,
 			// barBlue: false,
 			// barGreen: false
@@ -535,15 +548,15 @@ console.log("Test PINATA is starting...");
 	  		// bar 				= items.bar;
 	  		// barPlus 			= items.barPlus;
 	  		// dialogBox 			= items.dialogBox;
-	  		zoomAdapt 			= items.zoomAdapt;
+	  		// zoomAdapt 			= items.zoomAdapt;
 	  		// barRed 				= items.barRed;
 	  		// barBlue 			= items.barBlue;
 	  		// barGreen 			= items.barGreen;
 	  	});
 
-		if (zoomAdapt === true){
-			adaptToZoome();
-		}
+		// if (barPlusAdaptFlag || dialogBoxAdaptFlag){
+		// 	adaptToZoome();
+		// }
 
 	///////////// Talking to options.js for notification preferences \\\\\\\\\\\\\\\
 
@@ -582,6 +595,10 @@ console.log("Test PINATA is starting...");
 			//ct Bar
 			var ctBarElement = barElement;
 			document.body.appendChild(ctBarElement);			
+
+			//pt Bar
+			var ptBarElement = barElement;
+			document.body.appendChild(ptBarElement);			
 		///////////// Bar \\\\\\\\\\\\\\\
 
 		///////////// Bar+ \\\\\\\\\\\\\\\
@@ -643,7 +660,7 @@ console.log("Test PINATA is starting...");
 			notifBPTxt.style.lineHeight = "15px";
 			notifBPTxt.style.color = "#000";
 
-			notifBPTxt.innerHTML = "The webpage you are currently browsing seems to have small, hard to click targets!<br> Would you like the page to be zoomed in for a more enjoyable browsing experience?";
+			notifBPTxt.innerHTML = "The webpage you are currently browsing seems to have small, hard to click targets.<br> Would you like the page to be zoomed in for a more enjoyable browsing experience?";
 			barPlusElement.appendChild(notifBPTxt);
 
 			// Buttons \\
@@ -717,28 +734,33 @@ console.log("Test PINATA is starting...");
 			var ctBarPlusElement = barPlusElement;
 			document.body.appendChild(ctBarPlusElement);
 
+			//pt Bar
+			var ptBarPlusElement = barPlusElement;
+			document.body.appendChild(ptBarPlusElement);
+
 			// Bar+ functions \\
 			function dismissBarPlus(){
 				// Dismissing the Bar+ will turn off the notification Bar+
-				barPlus = false;
-				
+				barPlusDismissFlag = true;
+				barPlusAdaptFlag = false;
+
 				//************** Set Store **************//
-				chrome.storage.sync.set({
-					barPlus: barPlus
-				}, function() {});
+				// chrome.storage.sync.set({
+				// 	barPlus: barPlus
+				// }, function() {});
 			}
 
 			function adaptUIzoom(){
 				// Turn on zoom adaptation, and turn off Bar+ notification
 				// console.log("Adapting the UI, zoomAdapt is: " + zoomAdapt + " the Bar+ is: " + barPlus);
-				zoomAdapt = true;
-				barPlus = false;
+				barPlusAdaptFlag = true;
+				barPlusDismissFlag = false;
 				
 				//************** Set Store **************//
-				chrome.storage.sync.set({
-					barPlus: barPlus,
-					zoomAdapt: zoomAdapt
-				}, function() {});
+				// chrome.storage.sync.set({
+				// 	barPlus: barPlus,
+				// 	zoomAdapt: zoomAdapt
+				// }, function() {});
 
 				// Reload the page so the zoom effect starts on the current page 
 				// location.reload(true);
@@ -749,11 +771,9 @@ console.log("Test PINATA is starting...");
 
 		///////////// Dialog \\\\\\\\\\\\\\\
 			// This is the HTML element for the Bar+ notification 
-
-
 			// Create a DIV element
 			var dialogElement=document.createElement("DIV");
-			dialogElement.id = "dialog"
+			dialogElement.id = "dialog";
 			
 			// Hide the Bar+ by default, it will show when triggered 
 			dialogElement.style.display = "none";
@@ -845,7 +865,7 @@ console.log("Test PINATA is starting...");
 					dismissDialog.style.borderRadius = "3px";
 
 					// Add functionality to the dismiss button
-					dismissDialog.onclick = dismissDialoglus;
+					dismissDialog.onclick = dismissDialogPlus;
 					
 					// Add text to the dismiss button
 					var dismissDTxt =  document.createTextNode("Dismiss");
@@ -895,28 +915,35 @@ console.log("Test PINATA is starting...");
 			var ctDialogElement = dialogElement;
 			document.body.appendChild(ctDialogElement);
 
+			//pt
+			var ptDialogElement = dialogElement;
+			document.body.appendChild(ptDialogElement);
+
 			// Dialog functions \\
-			function dismissDialoglus(){
-					// Dismissing the Bar+ will turn off the notification Bar+
-					dialogBox = false;
-					
-					//************** Set Store **************//
-					chrome.storage.sync.set({
-						dialogBox: dialogBox
-					}, function() {});
-				}
+			function dismissDialogPlus(){
+				// Dismissing the Bar+ will turn off the notification Bar+
+				dialogBoxDismissFlag = true;
+				dialogBoxAdaptFlag = false;
+				
+				//************** Set Store **************//
+				// chrome.storage.sync.set({
+				// 	dialogBox: dialogBox
+				// }, function() {});
+			}
 
 			function adaptUIzoom(){
 				// Turn on zoom adaptation, and turn off Bar+ notification
 				// console.log("Adapting the UI, zoomAdapt is: " + zoomAdapt + " the Bar+ is: " + dialogBox);
-				zoomAdapt = true;
-				dialogBox = false;
+				// zoomAdapt = true;
+				dialogBoxAdaptFlag = true
+				dialogBoxDismissFlag = false;
+				// dialogBox = false;
 				
 				//************** Set Store **************//	
-				chrome.storage.sync.set({
-					dialogBox: dialogBox,
-					zoomAdapt: zoomAdapt
-				}, function() {});
+				// chrome.storage.sync.set({
+				// 	dialogBox: dialogBox,
+				// 	zoomAdapt: zoomAdapt
+				// }, function() {});
 
 				// Reload the page so the zoom effect starts on the current page 
 				// location.reload(true);
@@ -941,8 +968,8 @@ console.log("Test PINATA is starting...");
 		  	var total_slips  = items.t_num_slips;
 		  	console.log("clicks" + total_clicks);
 		  	console.log("slips" + total_slips);
-
 		  	var scrRatio = (total_slips/total_clicks) * 100;
+
 		  	//ct
 		  	var ctRel = items.ctRel;
 		  	var ctViz = items.ctViz;
@@ -950,45 +977,58 @@ console.log("Test PINATA is starting...");
 		  	var ctPosBtm = items.ctPosBtm;
 		  	var ctThick = items.ctThick;
 		  	var ctBarColor = items.ctBarColor;
-		  	var clickTiming = items.click_durations;
-		  	//convert clicktiming into seconds
+		  	var clickTiming = items.clickTiming;
+		  	//convert clickTiming into seconds
 		  	clickTiming = clickTiming/1000;
 
-		  	console.log("***** scr Var values *****");
-		  	console.log("scrFlag: " + items.scrFlag);
-		  	console.log("scrRel: " + scrRel);
-			console.log("scrValue: " + items.scrValue);
-			console.log("scrViz: " + items.scrViz);
-			console.log("scrPosTop: " + posTop);
-			console.log("scrPosBtm: " + posBtm);
-			console.log("scrBarColor: " + scrBarColor);
-			console.log("scrThick: " + scrThick);
-			console.log("slip/click: " + scrRatio);
+		  	//pt
+		  	var ptRel = items.ptRel;
+		  	var ptValue = items.ptValue;
+		  	var ptViz = items.ptViz;
+		  	var ptPosTop = items.ptPosTop;
+		  	var ptPosBtm = items.ptPosBtm;
+		  	var ptThick = items.ptThick;
+		  	var ptBarColor = items.ptBarColor;
+		  	var pauseTiming = items.pauseTiming;
+		  	pauseTiming = pauseTiming/1000;
+		  	console.log("pauseTiming " + items.pauseTiming);
+		  	console.log("ptValue " + ptValue);
 
-		  	console.log("***** ct Var values *****");
-		  	console.log("ctFlag: " + items.ctFlag);
-		  	console.log("ctRel: " + ctRel);
-			console.log("ctValue: " + items.ctValue);
-			console.log("ctViz: " + items.ctViz);
-			console.log("ctPosTop: " + ctPosTop);
-			console.log("ctPosBtm: " + ctPosBtm);
-			console.log("ctBarColor: " + ctBarColor);
-			console.log("ctThick: " + ctThick);
-			console.log("clickTiming: " + clickTiming);
+		  	// console.log("***** scr Var values *****");
+		  	// console.log("scrFlag: " + items.scrFlag);
+		  	// console.log("scrRel: " + scrRel);
+		  	// console.log("scrValue: " + items.scrValue);
+		  	// console.log("scrViz: " + items.scrViz);
+		  	// console.log("scrPosTop: " + posTop);
+		  	// console.log("scrPosBtm: " + posBtm);
+		  	// console.log("scrBarColor: " + scrBarColor);
+		  	// console.log("scrThick: " + scrThick);
+		  	// console.log("slip/click: " + scrRatio);
+
+		  	// console.log("***** ct Var values *****");
+		  	// console.log("ctFlag: " + items.ctFlag);
+		  	// console.log("ctRel: " + ctRel);
+		  	// console.log("ctValue: " + items.ctValue);
+		  	// console.log("ctViz: " + items.ctViz);
+		  	// console.log("ctPosTop: " + ctPosTop);
+		  	// console.log("ctPosBtm: " + ctPosBtm);
+		  	// console.log("ctBarColor: " + ctBarColor);
+		  	// console.log("ctThick: " + ctThick);
+		  	// console.log("clickTiming: " + clickTiming);
 
 			//scr
-		  	if (items.scrFlag && 
-		  		((scrRel === "gt" && scrRatio > items.scrValue) ||
-		  		(scrRel === "lt" && scrRatio < items.scrValue) ||
-		  		(scrRel === "et" && scrRatio == items.scrValue))) {
-		  		
+			if (items.scrFlag && 
+				((scrRel === "gt" && scrRatio > items.scrValue) ||
+					(scrRel === "lt" && scrRatio < items.scrValue) ||
+					(scrRel === "et" && scrRatio == items.scrValue))) {
+
 		  		/////////// Bar notification \\\\\\\\\\
-		  		if (scrViz === "scrBar") {
-					console.log("In scrBar...");
+		  	if (scrViz === "scrBar") {
+		  		console.log("In scrBar...");
 
 					// turn on Bar notification only if there is an ineffective click
-						barElement.style.display = "block";
-						
+					barElement.style.display = "block";
+
 						// Position
 						if(posTop === true) {
 							barElement.style.top = "0px";
@@ -1006,7 +1046,7 @@ console.log("Test PINATA is starting...");
 						document.documentElement.style.top = "5px";
 					// }
 
-					}
+				}
 				else {
 					// turn off Bar notification
 					barElement.style.display = "none";
@@ -1030,13 +1070,17 @@ console.log("Test PINATA is starting...");
 						document.documentElement.style.top = "45px";
 					// }
 				}
-				else {
+				if(barPlusDismissFlag) {
 					// turn off Bar+ notification
-
 					barPlusElement.style.display = "none";
 					barPlusElement.style.background = "#efefef";
 					document.documentElement.style.position = "relative";
 					document.documentElement.style.top = "0";
+					barPlusDismissFlag = false;
+					barPlusAdaptFlag = false;
+				}
+				else if(barPlusAdaptFlag) {
+					adaptToZoome();
 				}
 				/////////// Bar+ notification \\\\\\\\\\
 
@@ -1051,12 +1095,16 @@ console.log("Test PINATA is starting...");
 						dialogElement.style.background = "#efefef";
 
 					// }
-					}
-				else {
+				}
+				if(dialogBoxDismissFlag) {
 					// turn off Bar+ notification
-
 					dialogElement.style.display = "none";
 					dialogElement.style.background = "#efefef";
+					dialogBoxDismissFlag = false;
+					dialogBoxAdaptFlag = false;
+				}
+				else if(dialogBoxAdaptFlag) {
+					adaptToZoome();
 				}
 
 				/////////// Dialog box notification \\\\\\\\\\
@@ -1065,13 +1113,13 @@ console.log("Test PINATA is starting...");
 
 			//ct
 			if (items.ctFlag && 
-		  		((ctRel === "gt" && clickTiming > items.ctValue) ||
-		  		(ctRel === "lt" && clickTiming < items.ctValue) ||
-		  		(ctRel === "et" && clickTiming == items.ctValue))) {
-		  		
+				((ctRel === "gt" && clickTiming > items.ctValue) ||
+					(ctRel === "lt" && clickTiming < items.ctValue) ||
+					(ctRel === "et" && clickTiming == items.ctValue))) {
+
 		  		/////////// Bar notification \\\\\\\\\\
-		  		if (ctViz === "ctBar") {
-					console.log("In CtBar...");
+		  	if (ctViz === "ctBar") {
+		  		console.log("In CtBar...");
 
 					// turn on Bar notification only if there is an ineffective click
 					ctBarElement.style.display = "block";
@@ -1116,14 +1164,19 @@ console.log("Test PINATA is starting...");
 						document.documentElement.style.top = "45px";
 					// }
 				}
-				else {
+				if(barPlusDismissFlag) {
 					// turn off Bar+ notification
-
 					ctBarPlusElement.style.display = "none";
 					ctBarPlusElement.style.background = "#efefef";
 					document.documentElement.style.position = "relative";
 					document.documentElement.style.top = "0";
+					barPlusDismissFlag = false;
+					barPlusAdaptFlag = false;
 				}
+				else if(barPlusAdaptFlag) {
+					adaptToZoome();
+				}
+
 				/////////// Bar+ notification \\\\\\\\\\
 
 				/////////// Dialog box notification \\\\\\\\\\
@@ -1137,17 +1190,116 @@ console.log("Test PINATA is starting...");
 						ctDialogElement.style.background = "#efefef";
 
 					// }
-					}
-				else {
+				}
+				if(dialogBoxDismissFlag) {
 					// turn off Bar+ notification
-
 					ctDialogElement.style.display = "none";
 					ctDialogElement.style.background = "#efefef";
+					dialogBoxDismissFlag = false;
+					dialogBoxAdaptFlag = false;
+				}
+				else if(dialogBoxAdaptFlag) {
+					adaptToZoome();
 				}
 
 				/////////// Dialog box notification \\\\\\\\\\
 			}
 
+			//pt
+			if (items.ptFlag && 
+				((ptRel === "gt" && pauseTiming > items.ptValue) ||
+					(ptRel === "lt" && pauseTiming < items.ptValue) ||
+					(ptRel === "et" && pauseTiming == items.ptValue))) {
+
+		  		/////////// Bar notification \\\\\\\\\\
+		  	if (ptViz === "ptBar") {
+		  		console.log("In ptBar...");
+
+					// turn on Bar notification only if there is an ineffective click
+					ptBarElement.style.display = "block";
+					
+					console.log("pt Pos Top" + ptPosTop);
+					// Position
+					if(ptPosTop === true) {
+						ptBarElement.style.top = "0px";
+					} else {
+						ptBarElement.style.bottom = "0px";
+					}
+
+					// thickness
+					ptBarElement.style.height = ptThick + "px";
+
+					//color
+					ptBarElement.style.background = ptBarColor;
+
+					document.documentElement.style.position = "relative";
+					document.documentElement.style.top = "5px";
+				}
+				else {
+					// turn off Bar notification
+					ptBarElement.style.display = "none";
+					ptBarElement.style.background = "#b639f9";
+					document.documentElement.style.position = "relative";
+					document.documentElement.style.top = "3px";
+					
+				}
+				/////////// Bar notification \\\\\\\\\\
+
+				/////////// Bar+ notification \\\\\\\\\\
+				if (ptViz === "ptBarPlus") {
+					// turn on Bar+ notification
+
+					// if (classification === 1 ){
+						// If the click was classified as ineffective show the Bar+ notification. 
+						ptBarPlusElement.style.display = "block";
+						ptBarPlusElement.style.background = "#bada55";
+						ptBarPlusElement.style.background = "#efefef";
+						document.documentElement.style.position = "relative";
+						document.documentElement.style.top = "45px";
+					// }
+				}
+				if(barPlusDismissFlag) {
+					// turn off Bar+ notification
+					ptBarPlusElement.style.display = "none";
+					ptBarPlusElement.style.background = "#efefef";
+					document.documentElement.style.position = "relative";
+					document.documentElement.style.top = "0";
+					barPlusDismissFlag = false;
+					barPlusAdaptFlag = false;
+				}
+				else if(barPlusAdaptFlag) {
+					adaptToZoome();
+				}
+				/////////// Bar+ notification \\\\\\\\\\
+
+				/////////// Dialog box notification \\\\\\\\\\
+				if (ptViz === "ptDialog") {
+					// turn on Bar+ notification
+
+					// if (classification === 1 ){
+						// If the click was classified as ineffective show the Bar+ notification. 
+						ptDialogElement.style.display = "block";
+						ptDialogElement.style.background = "#bada55";
+						ptDialogElement.style.background = "#efefef";
+
+					// }
+				}
+				if(dialogBoxDismissFlag) {
+					// turn off Bar+ notification
+					ptDialogElement.style.display = "none";
+					ptDialogElement.style.background = "#efefef";
+					dialogBoxDismissFlag = false;
+					dialogBoxAdaptFlag = false;
+				}
+				if(dialogBoxAdaptFlag) {
+					adaptToZoome();
+				}
+
+				/////////// Dialog box notification \\\\\\\\\\
+			}
+
+
+			//Adaptations
 			console.log("items.slip_prefAdapt");
 			console.log(items.slip_prefAdapt);
 			if (scrRatio >= items.slip_prefAdapt) {

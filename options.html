@@ -18,6 +18,7 @@
 		height: 400px;
 		padding: 0;
 		margin: 0;
+		
 	}
 
 	label{
@@ -98,28 +99,7 @@
 			right: 40px;
 
 		}
-		#download, #clear {
-			position: relative;
-			margin: 0 auto 0;
-			display: block;
-			width: 200px;
-			height: 35px;
-			line-height: 35px;
-			text-align: center;
-			background: #DCE57D;
-			color: #000;
-			cursor: pointer;
-			font-weight: normal;
-			letter-spacing: 1pt;
-			box-shadow: 0 2px 10px 0 rgba(0, 0, 0, 0.16), 0 2px 5px 0 rgba(0, 0, 0, 0.26);
-		}
-		#download:hover, #clear:hover {
-			background: rgba(16,21,43, 0.8);
-			color: #e5f928;
-			font-weight: normal;
-			letter-spacing: 1pt;
-			box-shadow:none;
-		}
+		
 		#clear{
 			margin-top: 3px;
 		}
@@ -166,12 +146,16 @@
 		}
 		.content-container {
 			max-height: 300px;
-			overflow-x: hidden;
-			overflow-y: scroll;
 			padding-bottom: 100px;
+			overflow: auto;
+		}
+		.filler {
+			height: 50px;
 		}
 		.card-container {
+			position: relative;
 			margin-bottom: 10px;
+			visibility: visible;
 		}
 		#options > h3{
 			margin: 0 auto 5px;
@@ -288,11 +272,12 @@
 			padding: 10px;
 			float: left;
 		}
-		#flip, #ctFlip {
+		#flip, #ctFlip, #ptFlip {
 
 		}
 		.optionsMenu {
 			text-align: left;
+
 		}
 		.col {
 			display: block;
@@ -312,7 +297,8 @@
 			display: none;
 			padding: 15px;
 			line-height: 25px;
-			/*box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.16), 0 2px 5px 0 rgba(0, 0, 0, 0.26);*/
+			z-index: 2345;
+			box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.16), 0 2px 5px 0 rgba(0, 0, 0, 0.26);
 		}
 		#ctOptionsMenu {
 			margin: auto;
@@ -324,7 +310,21 @@
 			display: none;
 			padding: 15px;
 			line-height: 25px;
-			/*box-shadow: 0 2px 10px 0 rgba(0, 0, 0, 0.16), 0 2px 5px 0 rgba(0, 0, 0, 0.26);*/
+			z-index: 2345;
+			box-shadow: 0 2px 10px 0 rgba(0, 0, 0, 0.16), 0 2px 5px 0 rgba(0, 0, 0, 0.26);
+		}
+		#ptOptionsMenu {
+			margin: auto;
+			border-top: 1px solid #B4B4B4;
+			color: #fff;
+			width: 100%;
+			/*height: 100px;*/
+			background: #3D4252;
+			display: none;
+			padding: 15px;
+			line-height: 25px;
+			z-index: 2345;
+			box-shadow: 0 2px 10px 0 rgba(0, 0, 0, 0.16), 0 2px 5px 0 rgba(0, 0, 0, 0.26);
 		}
 		</style>
 
@@ -469,7 +469,60 @@
 				</div>
 				<!-- End: Click Timing -->
 
+				<!-- Start: Pause Timing -->
+				<div class="card-container">
+					<div class="card">
+						<div class="flag">
+							<input type="checkbox" id="ptFlag">
+						</div>
+
+						<div class="metric">
+							<b>Pause Timing</b> is
+							<br>
+
+							<select id="ptRel">
+								<option value="gt" selected="selected">greater than</option>
+								<option value="et">equal to</option>
+								<option value="lt">less than</option>
+							</select>
+
+							<input id="ptValue" type="number" min="0" max="50" step="1" value="0"> sec
+						</div>
+
+						<div class="viz">
+							<select id="ptViz">
+								<option value="ptBar" selected="selected">Bar</option>
+								<option value="ptBarPlus">Bar+</option>
+								<option value="ptDialog">Dialog Box</option>
+							</select>
+							<br>
+
+							<!-- Options menu -->
+							<div id="ptFlip" class="options-btn">Options</div>
+						</div>
+
+					</div>
+					<div class="optionsMenu" id="ptOptionsMenu">
+						<div class="col">
+							Position:
+							<input type="radio" name="ptPos" id="ptPosTop" checked="true"> Top 
+							<input type="radio" name="ptPos" id="ptPosBtm">Bottom
+						</div>
+						<div class="col">
+							Color:
+							<input type='text' name='togglePaletteOnly' id='ptBarColor'/>
+						</div>
+						<div class="row">
+							Thickness:
+							<input id="ptThick" type="number" min="5" max="50" step="1" value="5"> pixels
+						</div>
+					</div>
+				</div>
+				<!-- End: Click Timing -->
+
+			<div class="filler"></div>
 			</div>
+
 
 			<div class="btmBar">
 				<div id="save">Save</div>

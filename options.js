@@ -15,57 +15,6 @@
 
 
 // *********************** Start: Main Code ***********************
-
-
-
-
-// function updateTextInput(val) {
-// 	var slider_val = document.getElementById('slipRangeSlider').value;
-// 	document.getElementById('textInput').innerHTML=slider_val;
-// 	document.getElementById('slipRangeSlider').value= slider_val;
-
-// 	//************** Set Store **************//
-// 	chrome.storage.sync.set({   
-// 		'slip_pref': slider_val
-// 	}, function(){}); 
-// }
-
-// function updateTextInputAdapt(val) {
-// 	var slider_val_Adapt = document.getElementById('slipRangeSliderAdapt').value;
-// 	document.getElementById('textInputAdapt').innerHTML=slider_val_Adapt;
-// 	document.getElementById('slipRangeSliderAdapt').value= slider_val_Adapt;
-
-// 	//************** Set Store **************//
-// 	chrome.storage.sync.set({   
-// 		'slip_prefAdapt': slider_val_Adapt
-// 	}, function(){});
-// }
-
-
-// document.getElementById('textInput').innerHTML = document.getElementById('slipRangeSlider').value;
-// document.getElementById('textInputAdapt').innerHTML = document.getElementById('slipRangeSliderAdapt').value;
-
-// document.getElementById('slipRangeSlider').addEventListener('click', updateTextInput);
-// document.getElementById('slipRangeSliderAdapt').addEventListener('click', updateTextInputAdapt);
-
-
-
-// // Restore the state of saved sliders. stored in chrome.storage.sync
-// function restore_options() {
-// 	console.log("Options restored");
-
-// 	//************** Get Store **************//
-// 	chrome.storage.sync.get(null, function(items) {
-// 		document.getElementById('slipRangeSlider').value = items.slip_pref;
-// 		document.getElementById('textInput').innerHTML=items.slip_pref;
-
-// 		document.getElementById('slipRangeSliderAdapt').value = items.slip_prefAdapt;
-// 		document.getElementById('textInputAdapt').innerHTML=items.slip_prefAdapt;
-
-// 	});
-// }
-// document.addEventListener('DOMContentLoaded', restore_options);
-
 $(document).ready(function(){
     // options menu
     //scr
@@ -75,6 +24,11 @@ $(document).ready(function(){
     //ct
     $("#ctFlip").click(function(){
     	$("#ctOptionsMenu").slideToggle("slow");
+    });
+
+    //pt
+    $("#ptFlip").click(function(){
+    	$("#ptOptionsMenu").slideToggle("slow");
     });
 
     //scr color picker
@@ -115,9 +69,29 @@ $(document).ready(function(){
     	]
     });
 
+    //ct color picker
+    $("#ptBarColor").spectrum({
+    	showPaletteOnly: true,
+    	togglePaletteOnly: true,
+    	togglePaletteMoreText: 'more',
+    	togglePaletteLessText: 'less',
+    	color: "#fc2862",
+    	palette: [
+    	["#000","#444","#666","#999","#ccc","#eee","#f3f3f3","#fff"],
+    	["#f00","#f90","#ff0","#0f0","#0ff","#00f","#90f","#f0f"],
+    	["#f4cccc","#fce5cd","#fff2cc","#d9ead3","#d0e0e3","#cfe2f3","#d9d2e9","#ead1dc"],
+    	["#ea9999","#f9cb9c","#ffe599","#b6d7a8","#a2c4c9","#9fc5e8","#b4a7d6","#d5a6bd"],
+    	["#e06666","#f6b26b","#ffd966","#93c47d","#76a5af","#6fa8dc","#8e7cc3","#c27ba0"],
+    	["#c00","#e69138","#f1c232","#6aa84f","#45818e","#3d85c6","#674ea7","#a64d79"],
+    	["#900","#b45f06","#bf9000","#38761d","#134f5c","#0b5394","#351c75","#741b47"],
+    	["#600","#783f04","#7f6000","#274e13","#0c343d","#073763","#20124d","#4c1130"]
+    	]
+    });
+
 });
 
 //metrics
+//scr
 var scrFlag;  
 var scrRel;  
 var scrValue;
@@ -125,16 +99,10 @@ var scrValue;
 var ctFlag;   
 var ctRel;   
 var ctValue;
-
-//viz
-//scr
-var scrFlag; 
-var scrRel;  
-var scrValue;
-//ct
-var ctFlag;  
-var ctRel;   
-var ctValue; 
+//pt
+var ptFlag;   
+var ptRel;   
+var ptValue;
 
 //viz
 //scr      
@@ -149,6 +117,12 @@ var ctPosTop;
 var ctPosBtm;   
 var ctThick;    
 var ctBarColor; 
+//pt        
+var ptViz;      
+var ptPosTop;   
+var ptPosBtm;   
+var ptThick;    
+var ptBarColor; 
 
 // Saves options to chrome.storage.sync.
 function save_options() {
@@ -163,22 +137,34 @@ function save_options() {
 	var e2         = document.getElementById('ctRel');
 	ctRel      = e2.options[e2.selectedIndex].value;
 	ctValue    = document.getElementById('ctValue').value;
+	//pt
+	ptFlag     = document.getElementById('ptFlag').checked;
+	var e3     = document.getElementById('ptRel');
+	ptRel      = e3.options[e3.selectedIndex].value;
+	ptValue    = document.getElementById('ptValue').value;
 
 	//viz
 	//scr
-	var e3         = document.getElementById('scrViz');
-	scrViz     = e3.options[e3.selectedIndex].value;
+	var e4         = document.getElementById('scrViz');
+	scrViz     = e4.options[e4.selectedIndex].value;
 	posTop     = document.getElementById('posTop').checked;
 	posBtm     = document.getElementById('posBtm').checked;
 	scrThick   = document.getElementById('scrThick').value;
 	scrBarColor= $("#scrBarColor").spectrum("get").toHexString();
 	//ct
-	var e4         = document.getElementById('ctViz');
-	ctViz      = e4.options[e4.selectedIndex].value;
+	var e5         = document.getElementById('ctViz');
+	ctViz      = e5.options[e5.selectedIndex].value;
 	ctPosTop   = document.getElementById('ctPosTop').checked;
 	ctPosBtm   = document.getElementById('ctPosBtm').checked;
 	ctThick    = document.getElementById('ctThick').value;
 	ctBarColor = $("#ctBarColor").spectrum("get").toHexString();
+	//pt
+	var e6         = document.getElementById('ptViz');
+	ptViz      = e6.options[e6.selectedIndex].value;
+	ptPosTop   = document.getElementById('ptPosTop').checked;
+	ptPosBtm   = document.getElementById('ptPosBtm').checked;
+	ptThick    = document.getElementById('ptThick').value;
+	ptBarColor = $("#ptBarColor").spectrum("get").toHexString();
 
 	//************** Set Store **************//
 	chrome.storage.sync.set({
@@ -190,7 +176,11 @@ function save_options() {
 		//ct
 		ctFlag: ctFlag,
 		ctRel: ctRel,
-		ctValue: ctValue, 
+		ctValue: ctValue,
+		//pt
+		ptFlag: ptFlag,
+		ptRel: ptRel,
+		ptValue: ptValue, 
 
 		//viz
 		//scr
@@ -204,7 +194,13 @@ function save_options() {
 		ctPosTop: ctPosTop,
 		ctPosBtm: ctPosBtm,
 		ctThick: ctThick,
-		ctBarColor: ctBarColor
+		ctBarColor: ctBarColor,
+		//pt
+		ptViz: ptViz,
+		ptPosTop: ptPosTop,
+		ptPosBtm: ptPosBtm,
+		ptThick: ptThick,
+		ptBarColor: ptBarColor
 
 	}, function() {});
 
@@ -225,6 +221,10 @@ function resetOptions() {
 		ctFlag: false,
 		ctRel: "gt",
 		ctValue: 0,
+		//ct
+		ptFlag: false,
+		ptRel: "gt",
+		ptValue: 0,
 
 		//viz
 		//scr
@@ -238,18 +238,24 @@ function resetOptions() {
 		ctPosTop: true,
 		ctPosBtm: false,
 		ctThick: "5",
-		ctBarColor: "#fc2862"
+		ctBarColor: "#fc2862",
+		//pt
+		ptViz: "ptBar",
+		ptPosTop: true,
+		ptPosBtm: false,
+		ptThick: "5",
+		ptBarColor: "#fc2862"
 
 	}, function() {});
 
 	flashMSG("Notification Preferences Cleared.", 1500);
 
-	restore_options_notif();
+	restoreOptionsNotif();
 }
 
 // Restores select box and checkbox state using the preferences
 // stored in chrome.storage.sync
-function restore_options_notif() {
+function restoreOptionsNotif() {
 	// Use default value color = 'red' and likesColor = true.
 	
 	//************** Get Store **************//
@@ -259,10 +265,14 @@ function restore_options_notif() {
 		scrFlag: false,
 		scrRel: "gt",
 		scrValue: 0,
-		//ct
+		///ct
 		ctFlag: false,
 		ctRel: "gt",
 		ctValue: 0,
+		//pt
+		ptFlag: false,
+		ptRel: "gt",
+		ptValue: 0,
 
 		//viz
 		//scr
@@ -276,7 +286,13 @@ function restore_options_notif() {
 		ctPosTop: true,
 		ctPosBtm: false,
 		ctThick: "5",
-		ctBarColor: "#fc2862"
+		ctBarColor: "#fc2862",
+		//pt
+		ptViz: "ptBar",
+		ptPosTop: true,
+		ptPosBtm: false,
+		ptThick: "5",
+		ptBarColor: "#fc2862"
 
 	}, function(items) {
 		//metrics
@@ -288,6 +304,10 @@ function restore_options_notif() {
 		document.getElementById('ctFlag').checked= items.ctFlag;
 		document.getElementById('ctRel').value= items.ctRel;
 		document.getElementById('ctValue').value = items.ctValue;
+		//pt
+		document.getElementById('ptFlag').checked= items.ptFlag;
+		document.getElementById('ptRel').value= items.ptRel;
+		document.getElementById('ptValue').value = items.ptValue;
 
 		//viz
 		//scr
@@ -302,10 +322,16 @@ function restore_options_notif() {
 		document.getElementById('ctPosBtm').checked= items.ctPosBtm;
 		document.getElementById('ctThick').value = items.ctThick;
 		$("#ctBarColor").spectrum("set", items.ctBarColor);
+		//pt
+		document.getElementById('ptViz').value = items.ptViz;
+		document.getElementById('ptPosTop').checked= items.ptPosTop;
+		document.getElementById('ptPosBtm').checked= items.ptPosBtm;
+		document.getElementById('ptThick').value = items.ptThick;
+		$("#ptBarColor").spectrum("set", items.ptBarColor);
 	});
 }
 
-document.addEventListener('DOMContentLoaded', restore_options_notif);
+document.addEventListener('DOMContentLoaded', restoreOptionsNotif);
 document.getElementById('save').addEventListener('click', save_options);
 document.getElementById('reset').addEventListener('click', resetOptions);
 
@@ -335,7 +361,7 @@ function download(){
 			};
 		}());
 
-		fileName = "pinata.json";
+		fileName = "Pinata.json";
 
 		saveData(result, fileName);
 
@@ -351,7 +377,7 @@ function clear(){
 			console.error(error);
 		}
 	});
-	flashMSG("Session Cleared!", 1000);
+	flashMSG("Session Cleared.", 1000);
 }
 
 function flashMSG(msg, time){

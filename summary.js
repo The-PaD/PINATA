@@ -1,6 +1,7 @@
 //scr
 var scrFlag;
 var ctFlag;
+var ptFlag;
 var scrText = "Slip/Click";
 scrText = scrText.bold();
 scrText +=  " ratio is ";
@@ -9,13 +10,18 @@ var ctText = "Click Timing";
 ctText = ctText.bold();
 ctText +=  " is ";
 
+var ptText = "Pause Timing";
+ptText = ptText.bold();
+ptText +=  " is ";
+
 var counter = 0;
 
 chrome.storage.sync.get(null, function(items) {
 	scrFlag = items.scrFlag;
 	ctFlag = items.ctFlag;
+	ptFlag = items.ptFlag;
 
-	if(!scrFlag && !ctFlag) {
+	if(!scrFlag && !ctFlag && !ptFlag) {
 		console.log("No subscribed notifications.");
 	}
 	else {
@@ -164,6 +170,79 @@ chrome.storage.sync.get(null, function(items) {
 			ctCardDiv.appendChild(ctSummaryDiv);
 
 			document.getElementById("card-container").appendChild(ctCardDiv);
+		}
+		if(ptFlag) {
+			counter++;
+
+			var ptCardDiv = document.createElement("DIV");
+			ptCardDiv.className = "summary-card";
+
+			//counter
+			var ptCounterDiv = document.createElement("DIV");
+			ptCounterDiv.className = "counter";
+			ptCounterDiv.innerHTML = counter;
+
+			var ptSummaryDiv = document.createElement("DIV");
+			ptSummaryDiv.className = "summary";
+			
+			//start creating the summary message string
+			var summary = ptText;
+
+			//relation
+			if(items.ptRel === "gt") {
+				summary += "greater than ";
+			} else if(items.ptRel === "et") {
+				summary += "equal to ";
+			} else {
+				summary += "less than ";
+			}
+			var ptRelValue = items.ptValue.toString().bold();
+			summary += ptRelValue + " using a ";
+
+			//viz type
+			if(items.ptViz === "ptBar") {
+				var ptVizValue = "Bar";
+				summary += ptVizValue.bold();
+			} else if(items.ptViz === "ptBarPlus") {
+				var ptVizValue = "Bar+";
+				summary += ptVizValue.bold();
+			} else if(items.ptViz === "ptDialog"){
+				var ptVizValue = "Dialog Box";
+				summary += ptVizValue.bold();
+			}
+
+			summary += " having ";
+
+			//position
+			summary += "position as ";
+			if(items.ptPos === "ptPosTop") {
+				var ptPosValue = "Top";
+				summary += ptPosValue.bold();
+			} else {
+				var ptPosValue = "Bottom";
+				summary += ptPosValue.bold();
+			}
+			summary += ", ";
+
+			//color
+			var ptBarColorValue = items.ptBarColor.toString();
+			ptBarColorValue.fontcolor(ptBarColorValue);
+			summary += "color as " + ptBarColorValue.bold();
+
+			summary += " and ";
+
+			//thickness
+			summary += "thickness as ";
+			var ptThickValue = items.ptThick;
+			ptThickValue = ptThickValue.bold();
+			summary += ptThickValue + ".";
+			
+			ptSummaryDiv.innerHTML = summary;
+
+			ptCardDiv.appendChild(ptCounterDiv);
+			ptCardDiv.appendChild(ptSummaryDiv);
+
+			document.getElementById("card-container").appendChild(ptCardDiv);
 		}
 	}
 
