@@ -1,3 +1,13 @@
+/*
+* @Author            : Abdullah Ali, Tejas Bhalerao
+* @Date              : 2017-05-29 00:42:30
+* @Description       : This script is used to display the summary of the notification metrics subscribed by the user
+* @Last Modified by  : Tejas
+* @Last Modified time: 2017-05-29 01:16:08
+* @Contact           : @xyleques, xyleques@me.com; tejasbhalerao01@gmail.com
+* @version           : 2
+*/
+
 //scr
 var scrFlag;
 var ctFlag;
@@ -14,7 +24,7 @@ var ptText = "Pause Timing";
 ptText = ptText.bold();
 ptText +=  " is ";
 
-var counter = 0;
+var counter = 0; 
 
 chrome.storage.sync.get(null, function(items) {
 	scrFlag = items.scrFlag;
@@ -245,5 +255,4 @@ chrome.storage.sync.get(null, function(items) {
 			document.getElementById("card-container").appendChild(ptCardDiv);
 		}
 	}
-
 });

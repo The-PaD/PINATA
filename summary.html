@@ -1,122 +1,126 @@
 <!DOCTYPE html>
-<!-- 
-// Options.html: The web UI of the options page 
-// Author: Abdullah Ali
-// Contact: @xyleques, xyleques@me.com
+<!--
+* @Author            : Abdullah Ali, Tejas Bhalerao
+* @Date              : 2017-05-29 00:42:30
+* @Description       : This page displays the summary of the notifications subscribed by the user
+* @Last Modified by  : Tejas
+* @Last Modified time: 2017-05-29 01:16:08
+* @Contact           : @xyleques, xyleques@me.com; tejasbhalerao01@gmail.com
+* @version           : 2
 -->
 <html>
 <head>
 	<title>Notifications Summary</title>
 
 	<style>
-	body { 
-		/*padding: 10px;*/
-		/*padding-top: 0; */
-		font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
-		background: #2d313f;
-		width: 500px;
-		height: 400px;
-		padding: 0;
-		margin: 0;
-	}
+		body { 
+			/*padding: 10px;*/
+			/*padding-top: 0; */
+			font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+			background: #2d313f;
+			width: 500px;
+			height: 400px;
+			padding: 0;
+			margin: 0;
+		}
 
-	label{
-		margin-bottom: 30px;
-	}
-	h2{
-		color: #fff;
-		margin: 0 auto 10px;
+		label{
+			margin-bottom: 30px;
+		}
+		h2{
+			color: #fff;
+			margin: 0 auto 10px;
 
-	}
-	h4{
-		margin: 0 auto 5px;
-	}
-	a{
-		text-decoration: none;
-	}
-	a img {
+		}
+		h4{
+			margin: 0 auto 5px;
+		}
+		a{
+			text-decoration: none;
+		}
+		a img {
 
-		border:0;
-		border-style: none;
-	}
-	*:focus {outline: 0;}
+			border:0;
+			border-style: none;
+		}
+		*:focus {outline: 0;}
 
-	#wrapper{
-		width: 500px;
-		height: 400px;
-		position: absolute;
-	}
-	.top {
-		position: relative;
-		left: 0;
-		top: 0;
-		width: 100%;
-		background: #222633;
-		height: 50px;
-		padding-left: 45px;
-	}
-	.title{
-		line-height: 50px;
-		text-align: left;
-		font-size: 15pt;
-		/*letter-spacing: 8pt;*/
-		color: #DCE57D;
-	}
+		#wrapper{
+			width: 500px;
+			height: 400px;
+			position: absolute;
+		}
+		.top {
+			position: relative;
+			left: 0;
+			top: 0;
+			width: 100%;
+			background: #222633;
+			height: 50px;
+			padding-left: 45px;
+		}
+		.title{
+			line-height: 50px;
+			text-align: left;
+			font-size: 15pt;
+			/*letter-spacing: 8pt;*/
+			color: #DCE57D;
+		}
 	/*h4 {
 		color: #656565;
 		position: relative;
 		top: 5px;
 		line-height: 30px;
-		}*/
-		.title > span{
-			font-weight: bolder;
-			color: #989898;
-		}
-		.subtitle {
-			height: 10px;
-			line-height: 10px;
-			padding-left: 45px;
-		}
-		#logo{
-			width: 50px;
-			position: absolute;
-			/*display: block;*/
-			/*z-index: -1;*/
-			top: 10px;
-			right: 40px;
+	}*/
+	.title > span{
+		font-weight: bolder;
+		color: #989898;
+	}
+	.subtitle {
+		height: 10px;
+		line-height: 10px;
+		padding-left: 45px;
+	}
+	#logo{
+		width: 50px;
+		position: absolute;
+		/*display: block;*/
+		/*z-index: -1;*/
+		top: 10px;
+		right: 40px;
 
-		}
-		#download, #clear {
-			position: relative;
-			margin: 0 auto 0;
-			display: block;
-			width: 200px;
-			height: 35px;
-			line-height: 35px;
-			text-align: center;
-			background: #DCE57D;
-			color: #000;
-			cursor: pointer;
-			font-weight: normal;
-			letter-spacing: 1pt;
-			box-shadow: 0 2px 10px 0 rgba(0, 0, 0, 0.16), 0 2px 5px 0 rgba(0, 0, 0, 0.26);
-		}
-		#download:hover, #clear:hover {
-			background: rgba(16,21,43, 0.8);
-			color: #e5f928;
-			font-weight: normal;
-			letter-spacing: 1pt;
-			box-shadow:none;
-		}
-		#clear{
-			margin-top: 3px;
-		}
-		#back{
-			position: absolute;
-			left: 0;
-			top: 0;
-			width: 45px;
-			height: 50px;
+	}
+	#download, #clear {
+		position: relative;
+		margin: 0 auto 0;
+		display: block;
+		width: 200px;
+		height: 35px;
+		line-height: 35px;
+		text-align: center;
+		background: #DCE57D;
+		color: #000;
+		cursor: pointer;
+		font-weight: normal;
+		letter-spacing: 1pt;
+		box-shadow: 0 2px 10px 0 rgba(0, 0, 0, 0.16), 0 2px 5px 0 rgba(0, 0, 0, 0.26);
+	}
+	#download:hover, #clear:hover {
+		background: rgba(16,21,43, 0.8);
+		color: #e5f928;
+		font-weight: normal;
+		letter-spacing: 1pt;
+		box-shadow:none;
+	}
+	#clear{
+		margin-top: 3px;
+	}
+	#back{
+		position: absolute;
+		left: 0;
+		top: 0;
+		width: 45px;
+		height: 50px;
 			/*background: rgba(16,21,43, 0.5);
 			box-shadow: 0 2px 10px 0 rgba(0, 0, 0, 0.16), 0 2px 5px 0 rgba(0, 0, 0, 0.26);*/
 		}
@@ -288,36 +292,32 @@
 			width: 20px;
 			height: 15px;
 		}
-		</style>
+	</style>
 
-		<link rel="stylesheet" type="text/css" href="spectrum.css">
-	</head>
+	<link rel="stylesheet" type="text/css" href="spectrum.css">
+</head>
 
-	<body>
+<body>
 
-		<div id="wrapper">
-			<div class="top">
-				<a href="popup.html">
-					<div id="back">
-						<div id="arrow"></div>
-					</div>  
-				</a>
-				
-				<h2 class="title" id="name">Notifications Summary</h2>
-				<img src="img/newConceptYellow.png" id="logo">
-			</div>
+	<div id="wrapper">
+		<div class="top">
+			<a href="popup.html">
+				<div id="back">
+					<div id="arrow"></div>
+				</div>  
+			</a>
 
-			<div class="subtitle">
-				<div class="subtitle-metric">Notify me using:</div>
-			</div>
-
-			<div id="card-container"></div>
+			<h2 class="title" id="name">Notifications Summary</h2>
+			<img src="img/newConceptYellow.png" id="logo">
 		</div>
+
+		<div class="subtitle">
+			<div class="subtitle-metric">Notify me using:</div>
+		</div>
+
+		<div id="card-container"></div>
 	</div>
-
-
-
-
+</div>
 
 </div>
 <script src="summary.js"></script>
